@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Result</title>
+    <style>
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-image: url("{{ url_for('static', filename='uehB.png') }}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            filter: blur(5px);
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 100px auto;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            font-weight: bold;
+        }
+        h2 {
+            color: #666;
+        }
+        .button {
+            display: inline-block;
+            background-color: #009688;
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-top: 20px;
+        }
+        .button:hover {
+            background-color: #00796b;
+        }
+        .footer-text {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 10px;
+            color: #dcdcdc;
+            user-select: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="background"></div>
+    <div class="footer-text">© Personality (Group 5). UEH Big Data Application 2024.</div>
+    <div class="container">
+        <h1>PREDICTION RESULT</h1>
+        <h2>Naive Bayes predicted topic: {{ prediction_nb }} ({{ accuracy_nb }}%)</h2>
+        <h2>Logistic Regression predicted topic: {{ prediction_lr }} ({{ accuracy_lr }}%)</h2>
+        <h2>LSTM predicted topic: {{ prediction_lstm }} ({{ accuracy_lstm }}%)</h2>
+        <img src="{{ url_for('static', filename='accuracy_comparison.png') }}" alt="Accuracy Comparison">
+        <form action="/recommend" id="recommend-form" method="post">
+            <input type="hidden" name="text" value="{{ text }}">
+        </form>
+        <div class="recommendations" style="margin-top: 20px;">
+            <h2>Recommended Videos</h2>
+            <ul>
+                {% for video in recommended_videos %}
+                    <li>{{ video }}</li>
+                {% endfor %}
+            </ul>    
+        </div>
+        <a href="/" class="button">Back to Home</a>
+    </div>  
+</body>
+</html>
